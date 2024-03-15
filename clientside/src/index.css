@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body,
+html {
+  background: #330133;
+  background: radial-gradient(at center top, #330133, #010101);
+  height: 100%;
+  width: 100%;
+  color: white;
+  overflow-y: hidden;
+}
+
+/*
+* Created with https://www.css-gradient.com
+* Gradient link: https://www.css-gradient.com/?c1=330133&c2=010101&gt=r&gd=dtt
+*/
+background: #330133;
+background: radial-gradient(at center top, #330133, #010101);
