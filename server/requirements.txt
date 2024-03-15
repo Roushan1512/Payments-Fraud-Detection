@@ -1,0 +1,11 @@
+Flask
+Pandas
+Numpy
+Matplotlib
+Plotly
+scikit-learn
+flask-cors
+flask_jwt_extended
+flask_sqlalchemy
+flask_restful
+psycopg2
