@@ -1,6 +1,9 @@
 import { useState } from "react";
 import React from "react";
 import axios from "axios";
+import { ClipboardList, X } from "lucide-react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Getapi = () => {
   const [user, setUser] = useState("");
@@ -16,6 +19,9 @@ const Getapi = () => {
     };
     axios.post(`http://127.0.0.1:5000/api/login`, data).then((res) => {
       setUserData(res.data);
+      setFound(true);
+      setUser("");
+      setPass("");
     });
   };
 
@@ -28,15 +34,24 @@ const Getapi = () => {
       .post(`${import.meta.env.VITE_URL}/APiKey/register`, data)
       .then((res) => {
         setUserData(res.data);
+        setFound(true);
+        setUser("");
+        setPass("");
       });
   };
 
+  const change = () => {
+    setStatus(!status);
+    setUser("");
+    setPass("");
+  };
+
   return (
-    <div className="bg-neutral-800 min-h-screen flex justify-center items-center">
+    <div className="min-h-screen bg-neutral-800 flex justify-center items-center">
       {status ? (
         // Register
-        <div className="bg-black h-auto w-auto px-12 py-16 rounded-lg flex flex-col justify-center items-center gap-6">
-          <h1>Register to get your ApiKey</h1>
+        <div className="bg-black h-auto w-auto px-6 py-12 rounded-3xl flex flex-col justify-center items-center gap-6">
+          <h1 className="text-3xl">Register to get your ApiKey</h1>
           <label htmlFor="user">Username</label>
           <input
             type="text"
@@ -59,7 +74,7 @@ const Getapi = () => {
           <span>
             Have your own Api Key?{" "}
             <a
-              onClick={() => setStatus(!status)}
+              onClick={change}
               className="text-underline cursor-pointer text-purple-900"
             >
               Login Now
@@ -68,8 +83,8 @@ const Getapi = () => {
         </div>
       ) : (
         // Login
-        <div className="bg-black h-auto w-auto px-12 py-16 rounded-lg flex flex-col justify-center items-center gap-6">
-          <h1>Login to check your ApiKey</h1>
+        <div className="bg-black h-auto w-auto px-6 py-12 rounded-3xl flex flex-col justify-center items-center gap-6">
+          <h1 className="text-3xl">Login to check your ApiKey</h1>
           <label htmlFor="user">Username</label>
           <input
             type="text"
@@ -92,7 +107,7 @@ const Getapi = () => {
           <span>
             Didn't make your own Api Key?{" "}
             <a
-              onClick={() => setStatus(!status)}
+              onClick={change}
               className="text-underline cursor-pointer text-purple-900"
             >
               Register Now
@@ -100,6 +115,31 @@ const Getapi = () => {
           </span>
         </div>
       )}
+      <div
+        className={`absolute bottom-6 right-0 h-auto w-[30vw] rounded-l-2xl py-4 bg-black flex flex-col justify-center items-center ${
+          found ? "block" : "hidden"
+        }`}
+      >
+        <span>Username : {found ? userData.username : ""}</span>
+        <span>Password : {found ? userData.password : ""}</span>
+        <span>
+          ApiKey : {found ? userData.api_key.substr(-6) + " . . ." : ""}
+        </span>
+        <span>Message : {found ? userData.message : ""}</span>
+        <button
+          type="button"
+          onClick={() => setFound(false)}
+          className="absolute top-2 left-2 bg-red-500 rounded-full p-1  text-white font-bold cursor-pointer"
+        >
+          <X size={14} />
+        </button>
+        <CopyToClipboard text={userData.api_key}>
+          <ClipboardList
+            size={14}
+            className="cursor-pointer absolute top-12 left-2 rounded-full h-6 w-6 text-white font-bold"
+          />
+        </CopyToClipboard>
+      </div>
     </div>
   );
 };
