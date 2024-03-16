@@ -1,7 +1,12 @@
 import React from "react";
 import logo from "./Cypher_logo.png";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import Login from "../Login/Login";
+import Logout from "../Login/Logout";
 const Header = () => {
+  const { user, isAuthenticated } = useAuth0();
+  console.log(isAuthenticated);
   return (
     <div className="bg-[#000000] flex justify-between items-center  text-white mt-6 left-[20%] h-[6vh] w-[60vw] rounded-3xl px-10 overflow-hidden  shadow-[#120411] absolute z-30">
       <div>
@@ -65,7 +70,14 @@ const Header = () => {
           </NavLink>
         </ul>
       </div>
-      <div>LOGIN</div>
+      <div>{isAuthenticated ? <Logout /> : <Login />}</div>
+      {isAuthenticated ? (
+        <img
+          src={user.picture}
+          alt={user.name}
+          className="h-12 w-12 rounded-full"
+        />
+      ) : null}
     </div>
   );
 };
