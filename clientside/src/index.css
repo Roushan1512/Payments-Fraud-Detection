@@ -12,11 +12,12 @@ html {
   width: 100%;
   color: white;
   overflow-y: hidden;
+  z-index: -100;
 }
 
 #front_page {
   background: #330133;
-  background: radial-gradient(at center bottom, #6d006d, #000000);
+  background: radial-gradient(at left bottom, #6d006d, #000000);
   /* background: #331b89;
   background: radial-gradient(at center bottom, #2f1880, #000000); */
 }

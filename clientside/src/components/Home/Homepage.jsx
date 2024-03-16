@@ -1,12 +1,18 @@
 import React from "react";
+import img1 from "./design.png";
 
 const Homepage = () => {
   return (
     <div
-      className="flex justify-center items-center h-[90vh] w-[90vw] gap-32 mx-auto rounded-b-3xl"
+      className="flex justify-center items-center h-[90vh] w-[90vw] gap-32 mx-auto rounded-b-3xl relative"
       id="front_page"
     >
-      <div className="h-[50%] w-auto bg-[#7b7b7b34] p-8 rounded-3xl shadow-lg shadow-[#120411] flex flex-col gap-10 backdrop-blur-xl justify-center ">
+      <img
+        src={img1}
+        alt=""
+        className="absolute bottom-0 left-0 rounded-bl-3xl"
+      />
+      <div className="h-[50%] w-auto bg-[#85858534] p-8 rounded-3xl shadow-2xl shadow-[#120411] flex flex-col gap-10 backdrop-blur-xl justify-center border-2 border-[#888888]">
         <div className="flex gap-3 items-center justify-center">
           <label htmlFor="select">Type:</label>
           <select className=" rounded-xl bg-transparent border-2 border-[#ffffff] p-3 outline-none  h-12">
