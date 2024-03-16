@@ -19,6 +19,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        Karla: ["Karla", "sans-serif"],
+      },
       colors: {
         greyish: "#cae9ff",
         border: "hsl(var(--border))",
