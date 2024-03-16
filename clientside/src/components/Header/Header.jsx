@@ -50,6 +50,19 @@ const Header = () => {
           >
             <li>ABOUT</li>
           </NavLink>
+          <NavLink
+            to="/getapi"
+            className={({ isActive }) =>
+              ` ${
+                isActive
+                  ? "bg-[#6d006d] hover:bg-[#940194]"
+                  : "bg-transparent hover:bg-[#450a45]"
+              }
+              p-2 rounded-2xl transition ease-in-out `
+            }
+          >
+            <li>ApiKey</li>
+          </NavLink>
         </ul>
       </div>
       <div>LOGIN</div>
