@@ -17,7 +17,7 @@ const Getapi = () => {
       username: user,
       password: pass,
     };
-    axios.post(`http://127.0.0.1:5000/api/login`, data).then((res) => {
+    axios.post(`${import.meta.env.VITE_URL}/api/login`, data).then((res) => {
       setUserData(res.data);
       setFound(true);
       setUser("");
