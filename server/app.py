@@ -170,6 +170,10 @@ def demo_predict_api():
         return jsonify({'prediction': output})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/status', methods=['GET'])
+def status():
+    return "Main page is working"
 
 
 if __name__ == '__main__':
