@@ -66,18 +66,20 @@ const Header = () => {
               p-2 rounded-2xl transition ease-in-out `
             }
           >
-            <li>ApiKey</li>
+            <li>API-KEY</li>
           </NavLink>
         </ul>
       </div>
-      <div>{isAuthenticated ? <Logout /> : <Login />}</div>
-      {isAuthenticated ? (
-        <img
-          src={user.picture}
-          alt={user.name}
-          className="h-12 w-12 rounded-full"
-        />
-      ) : null}
+      <div className="flex flex-row gap-8">
+        {isAuthenticated ? <Logout /> : <Login />}
+        {isAuthenticated ? (
+          <img
+            src={user.picture}
+            alt={user.name}
+            className="h-12 w-12 rounded-full"
+          />
+        ) : null}
+      </div>
     </div>
   );
 };

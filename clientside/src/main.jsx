@@ -13,6 +13,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { NextUIProvider } from "@nextui-org/react";
 import Getapi from "./components/GetApi/Getapi";
+import Aboutus from "./components/AboutUs/Aboutus";
 
 const AppRouter = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/getapi",
         element: <Getapi />,
+      },
+      {
+        path: "/aboutus",
+        element: <Aboutus />,
       },
     ],
   },
