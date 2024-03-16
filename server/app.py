@@ -155,8 +155,8 @@ def predict_api():
 
 
 # In the front page of the website anyone can use this to check the model
-@app.route('/demo/singleData/predict_api', methods=['POST'])
-def demo_predict_api():
+@app.route('/demo/singleData/predict_noapi', methods=['POST'])
+def predict_noapi():
     try:
         data = request.json['data']
         # print(data)
@@ -177,14 +177,25 @@ def demo_predict_api():
         return jsonify({'prediction': output})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/getFrauds',methods=['POST'])
+def getFrauds():
+    data=request.json['data']
+    company_name=data['companyName']
+    frauds = AllTransaction.query.filter_by(isFraud="Fraud",companyName=company_name).all()  # Fraud and No Fraud
+    nofrauds = AllTransaction.query.filter_by(isFraud="No Fraud",companyName=company_name).all()
+    transactions=AllTransaction.query.filter_by(companyName=company_name).all()
+    flag=AllTransaction.query.filter_by(isFlaggedFraud=5,companyName=company_name).all()
+    return jsonify({'frauds': len(frauds), 'nofrauds': len(nofrauds), 'transactions': len(transactions),'flagged':len(flag)})
+
     
 @app.route('/status', methods=['GET'])
 def status():
     return "Main page is working"
 
-
 if __name__ == '__main__':
     app.run(debug=True)
+    print("Server running on port : 5000")
 
 # Sample data
 # features=[type,amount,oldbalanceOrg,newbalanceOrig]
