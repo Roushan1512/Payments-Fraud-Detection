@@ -1,3 +1,4 @@
+import os
 import functools
 import pickle
 from flask import Flask, request, app, jsonify, url_for, render_template
@@ -10,7 +11,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 
 # app related configurations
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:sahilraja2002@localhost:5432/Cypher_transaction'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['JWT_SECRET_KEY'] = 'super-secret'
 
 
