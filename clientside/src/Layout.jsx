@@ -5,7 +5,7 @@ import Footer from "./components/Footer/Footer";
 
 function Layout() {
   return (
-    <div className=" bg-green-500 overflow-x-hidden">
+    <div className="overflow-x-hidden">
       <Header />
       <Outlet />
       <Footer />
