@@ -1,20 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Amita:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Angkor&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body,
 html {
-  background: #330133;
-  background: radial-gradient(at center top, #330133, #010101);
+  background: #080808;
+
   height: 100%;
   width: 100%;
   color: white;
   overflow-y: hidden;
+  z-index: -100;
+}
+
+#front_page {
+  background: #330133;
+  background: radial-gradient(at left bottom, #6d006d, #000000);
+  /* background: #331b89;
+  background: radial-gradient(at center bottom, #2f1880, #000000); */
 }
 
 /*
 * Created with https://www.css-gradient.com
 * Gradient link: https://www.css-gradient.com/?c1=330133&c2=010101&gt=r&gd=dtt
 */
-background: #330133;
-background: radial-gradient(at center top, #330133, #010101);
+/* background: #330133;
+background: radial-gradient(at center top, #330133, #010101); */
