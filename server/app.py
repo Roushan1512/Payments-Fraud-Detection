@@ -11,7 +11,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 
 # app related configurations
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://cypheralldetails_user:CAPmoZmvLCbmoEOW1ZDRXhGuSAvUZZsy@dpg-cnqivtmd3nmc7393uabg-a.singapore-postgres.render.com/cypheralldetails"
 app.config['JWT_SECRET_KEY'] = 'super-secret'
 
 
@@ -57,13 +57,20 @@ class userApiRegister(Resource):
             username=username, password=password, apikey=apikey)
         db.session.add(new_userApiKey)
         db.session.commit()
-        return {'username': username, 'password': password, 'api_key': apikey, 'message': 'You Must Store This API Key For Future Use!'}
+        return jsonify({'username': username, 'password': password, 'api_key': apikey, 'message': 'You Must Store This API Key For Future Use!'})
 
 
 api.add_resource(userApiRegister, '/APiKey/register')
 
 # Loading the model
 RF_model = pickle.load(open('random_forest_model.pkl', 'rb'))
+
+@app.route('/api/login',methods=['POST'])
+def loginapi():
+    username=request.json['username']
+    password=request.json['password']
+    user=UserApiKey.query.filter_by(username=username,password=password).first()
+    return jsonify({'message': 'Logged in successfully', 'api_key': user.apikey,'username':user.username,'password':user.password}), 200
 
 
 def api_key_required(func):
