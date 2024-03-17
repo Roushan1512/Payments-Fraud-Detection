@@ -70,6 +70,7 @@ const Dashboard = () => {
             : null,
         ]);
       });
+    console.log(fraudData);
   }, [refresh]);
 
   const doRefresh = () => {
@@ -439,14 +440,14 @@ const Dashboard = () => {
                         fill="#8884d8"
                         dataKey="value"
                       >
-                        {fraudData
+                        {/* {fraudData
                           ? fraudData.types.map((i, index) => (
                               <Cell
                                 key={`cell-${index}`}
                                 fill={COLORS[index % COLORS.length]}
                               />
                             ))
-                          : null}
+                          : null} */}
                       </Pie>
                       <Tooltip />
                       {/* <Legend /> */}

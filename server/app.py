@@ -202,8 +202,10 @@ def getFrauds():
     amount=0
     for i in range(len(fraudamount)):
         amount+=fraudamount[i][0]
-    print(amount)
+    print("company",company_name)
+    print("amount",amount)
     top3all=AllTransaction.query.filter_by(companyName=company_name).with_entities(AllTransaction.username,AllTransaction.amount,AllTransaction.isFraud).limit(3).all()
+    top3=list()
     top3={
         "1":{
             "name":top3all[0][0],
@@ -221,8 +223,9 @@ def getFrauds():
             "isfraud":top3all[2][2]
         }
     }
+    print("top3all",top3all)
     types=AllTransaction.query.filter_by(companyName=company_name).with_entities(AllTransaction.type).all()
-    print(types)
+    print("types",types)
     types2=list()
     for j in range(1,6):
         count=0
@@ -232,7 +235,7 @@ def getFrauds():
         if count>0:
             types2.append({"name":j,"value":count})
 
-    print(types2)
+    print("types2",types2)
     return jsonify({
         'companyName':company_name,
         'frauds': len(frauds), 
@@ -240,8 +243,8 @@ def getFrauds():
         'transactions': len(transactions), 
         'flagged': len(flagged),
         'amount':amount,
-        'top3':top3,
-        'types':types2
+        'types':types2,
+        'top3':top3
         })
 
 
