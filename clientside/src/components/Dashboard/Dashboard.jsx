@@ -266,9 +266,16 @@ const Dashboard = () => {
               </div>
               <RefreshCw
                 size={16}
-                className={`${refreshing} cursor-pointer`}
+                className={`${refreshing} cursor-pointer mx-4`}
                 onClick={doRefresh}
               />
+              <div
+                className={` w-[20%]  rounded h-full ${bgofcards} flex justify-center items-center`}
+              >
+                <h1 className="text-[2rem] flex items-end justify-start  font-medium underline">
+                  {localStorage.getItem("companyname")}
+                </h1>
+              </div>
             </div>
             <div className=" h-[28%]  flex p-[.3rem] gap-[1vw]">
               <div className={` flex-[1]  h-full ${bgofcards} flex-col`}>
