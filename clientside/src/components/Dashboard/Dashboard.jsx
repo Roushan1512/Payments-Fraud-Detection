@@ -28,6 +28,7 @@ import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const [transaction, setTransaction] = useState([]);
+  console.log(localStorage.getItem("companyname"));
   const data = [
     { name: "Group A", value: 400 },
     { name: "Group B", value: 300 },
