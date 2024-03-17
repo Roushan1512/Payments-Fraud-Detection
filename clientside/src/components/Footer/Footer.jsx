@@ -8,7 +8,7 @@ import Copyright from "./Copyright";
 const Footer = () => {
   return (
     <footer>
-      <div className="bg-[#000] flex justify-center items-center h-[25vh] w-[90vw] gap-36 mx-auto rounded-t-3xl mt-20">
+      <div className="bg-[#000] flex justify-center items-center h-[30vh] w-[90vw] gap-36 mx-auto rounded-t-3xl mt-20 overflow-hidden flex-wrap">
         <FooterNav />
         <ContactInfo />
         <SocialLinks />
