@@ -131,16 +131,17 @@ def predict_api():
                     # query to check if the transaction is already flagged as fraud
                     prev_isFlaggedFraud = AllTransaction.query.filter_by(
                         username=request.headers.get('username')).order_by(AllTransaction.id.desc()).first()
-                    prev_isFlaggedFraud = prev_isFlaggedFraud.isFlaggedFraud
-                if (prev_isFlaggedFraud == None):
-                    prev_isFlaggedFraud = 0
-                else:
-                    if (prev_isFlaggedFraud == 5):
-                        return jsonify({'error': 'Too many Fraud Transaction Your Account is under review'}), 400
 
-                    elif (prev_isFlaggedFraud > 4):
-                        print(prev_isFlaggedFraud)
-                        return jsonify({'error': 'You have already made 5 fraud transactions. You are not allowed to make more fraud transactions.'}), 400
+                    if prev_isFlaggedFraud:
+                        prev_isFlaggedFraud = prev_isFlaggedFraud.isFlaggedFraud
+                        if (prev_isFlaggedFraud == 5):
+                            return jsonify({'error': 'Too many Fraud Transaction Your Account is under review'}), 400
+
+                        if (prev_isFlaggedFraud > 4):
+                            print(prev_isFlaggedFraud)
+                            return jsonify({'error': 'You have already made 5 fraud transactions. You are not allowed to make more fraud transactions.'}), 400
+                    else:
+                        prev_isFlaggedFraud = 0
 
                 new_transaction = AllTransaction(
                     type=type, amount=amount, oldbalanceOrg=oldbalance_org, newbalanceOrig=newbalance_orig, isFraud=prediction, isFlaggedFraud=prev_isFlaggedFraud+1,
