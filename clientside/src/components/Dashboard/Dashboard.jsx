@@ -121,12 +121,6 @@ const Dashboard = () => {
       noOfFraud: 1700,
     },
   ];
-  const data3 = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-  ];
   const COLORS = ["#57006dc2", "#68217ac2", "#84259cc2", "#9f20bec2"];
 
   const RADIAN = Math.PI / 180;
@@ -408,7 +402,7 @@ const Dashboard = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart width={400} height={400}>
                   <Pie
-                    data={data3}
+                    data={fraudData.types}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
@@ -417,7 +411,7 @@ const Dashboard = () => {
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {data.map((entry, index) => (
+                    {fraudData.types.map((i, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
