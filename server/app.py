@@ -195,9 +195,14 @@ def getFrauds():
         isFraud="No Fraud", companyName=company_name).all()
     transactions = AllTransaction.query.filter_by(
         companyName=company_name).all()
-    flag = AllTransaction.query.filter_by(
+    flagged = AllTransaction.query.filter_by(
         isFlaggedFraud=5, companyName=company_name).all()
-    return jsonify({'frauds': len(frauds), 'nofrauds': len(nofrauds), 'transactions': len(transactions), 'flagged': len(flag)})
+    fraudamount=AllTransaction.query.filter_by(companyName=company_name,isFraud="Fraud").with_entities(AllTransaction.amount).all()
+    amount=0
+    for i in range(len(fraudamount)):
+        amount+=fraudamount[i][0]
+    print(amount)
+    return jsonify({'companyName':company_name,'frauds': len(frauds), 'nofrauds': len(nofrauds), 'transactions': len(transactions), 'flagged': len(flagged),'amount':amount})
 
 
 @app.route('/status', methods=['GET'])
@@ -207,7 +212,6 @@ def status():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    print("Server running on port : 5000")
 
 # Sample data
 # features=[type,amount,oldbalanceOrg,newbalanceOrig]
