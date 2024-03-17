@@ -1,4 +1,5 @@
 import os
+import json
 import functools
 import pickle
 from flask import Flask, request, app, jsonify, url_for, render_template
@@ -202,7 +203,46 @@ def getFrauds():
     for i in range(len(fraudamount)):
         amount+=fraudamount[i][0]
     print(amount)
-    return jsonify({'companyName':company_name,'frauds': len(frauds), 'nofrauds': len(nofrauds), 'transactions': len(transactions), 'flagged': len(flagged),'amount':amount})
+    top3all=AllTransaction.query.filter_by(companyName=company_name).with_entities(AllTransaction.username,AllTransaction.amount,AllTransaction.isFraud).limit(3).all()
+    top3={
+        "1":{
+            "name":top3all[0][0],
+            "amount":top3all[0][1],
+            "isfraud":top3all[0][2]
+        },
+        "2":{
+            "name":top3all[1][0],
+            "amount":top3all[1][1],
+            "isfraud":top3all[1][2]
+        },
+        "3":{
+            "name":top3all[2][0],
+            "amount":top3all[2][1],
+            "isfraud":top3all[2][2]
+        }
+    }
+    types=AllTransaction.query.filter_by(companyName=company_name).with_entities(AllTransaction.type).all()
+    print(types)
+    types2=list()
+    for j in range(1,6):
+        count=0
+        for i in range(len(types)):
+            if types[i][0]==j:
+                count+=1
+        if count>0:
+            types2.append({"name":j,"value":count})
+
+    print(types2)
+    return jsonify({
+        'companyName':company_name,
+        'frauds': len(frauds), 
+        'nofrauds': len(nofrauds), 
+        'transactions': len(transactions), 
+        'flagged': len(flagged),
+        'amount':amount,
+        'top3':top3,
+        'types':types2
+        })
 
 
 @app.route('/status', methods=['GET'])
