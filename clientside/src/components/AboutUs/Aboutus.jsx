@@ -6,16 +6,16 @@ const Aboutus = () => {
   return (
     <>
       <div className="h-[100vh] w-[100vw] flex items-center justify-center flex-col overflow-hidden gap-10">
-        <div className="bg-[#2d0c2d] h-[60%] w-[70%] mt-[5%] rounded-3xl relative flex items-left justify-center gap-16 flex-col p-5">
+        <div className="bg-[#2d0c2d] h-[60vh] w-[70vw] mt-[5%] rounded-3xl relative flex items-left justify-center gap-16 flex-col p-5 overflow-hidden">
           <img
             src={img1}
             alt=""
             className=" bottom-0 right-0 absolute w-[38vw]"
           />
-          <h1 className=" text-5xl font-semibold font-serif bg-[#681a68] ml-4 -mr-5 p-2 rounded-l-full">
+          <h1 className=" text-[2vw] font-semibold font-serif bg-[#681a68] ml-4 -mr-5 p-2 rounded-l-full">
             About Us
           </h1>
-          <p className="w-[50%] font-mono text-justify text-lg">
+          <p className="w-[50%] font-mono text-justify text-[100%]">
             At Cypher, we understand the critical role trust plays in the
             financial landscape. In today's increasingly digital world, where
             online transactions are commonplace, the risk of currency fraud has
