@@ -3,6 +3,6 @@ import { companySlice } from "./counter";
 
 export const store = configureStore({
   reducer: {
-    companyname: companySlice,
+    companyname: companySlice.reducer,
   },
 });
