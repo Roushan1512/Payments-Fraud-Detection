@@ -39,6 +39,10 @@ const Homepage = () => {
             setfraudDetected(false);
           }, 6000);
         }
+        setAmount("");
+        setoldBalance("");
+        setnewBalance("");
+        setType(1);
       })
       .catch((err) => {
         console.log(err);

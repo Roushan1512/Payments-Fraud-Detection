@@ -14,6 +14,7 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { NextUIProvider } from "@nextui-org/react";
 import Getapi from "./components/GetApi/Getapi";
 import Aboutus from "./components/AboutUs/Aboutus";
+import Transaction from "./components/Transactions/Transaction";
 
 const AppRouter = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/aboutus",
         element: <Aboutus />,
+      },
+      {
+        path: "/transaction",
+        element: <Transaction />,
       },
     ],
   },
