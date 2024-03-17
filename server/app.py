@@ -126,11 +126,14 @@ def predict_api():
                 prediction = RF_model.predict(data_unseen)[0]
                 predictions.append(prediction)
 
+                print(prediction)
+
                 # Storing the data in the database
                 if (prediction == "Fraud"):
                     # query to check if the transaction is already flagged as fraud
                     prev_isFlaggedFraud = AllTransaction.query.filter_by(
                         username=request.headers.get('username')).order_by(AllTransaction.id.desc()).first()
+                    print(prev_isFlaggedFraud)
 
                     if prev_isFlaggedFraud:
                         prev_isFlaggedFraud = prev_isFlaggedFraud.isFlaggedFraud
@@ -142,6 +145,8 @@ def predict_api():
                             return jsonify({'error': 'You have already made 5 fraud transactions. You are not allowed to make more fraud transactions.'}), 400
                     else:
                         prev_isFlaggedFraud = 0
+                else:
+                    prev_isFlaggedFraud = -1
 
                 new_transaction = AllTransaction(
                     type=type, amount=amount, oldbalanceOrg=oldbalance_org, newbalanceOrig=newbalance_orig, isFraud=prediction, isFlaggedFraud=prev_isFlaggedFraud+1,
