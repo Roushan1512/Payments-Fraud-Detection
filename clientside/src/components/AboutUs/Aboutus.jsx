@@ -1,12 +1,15 @@
 import React from "react";
 import img1 from "./abtus2.png";
-import dp from "./profile.jpg";
+import roushan from "./roushan.jpg";
+import avirup from "./avirup1.jpg";
+import sahil from "./sahil1.jpg";
+import avijit from "./avijit.jpg";
 
 const Aboutus = () => {
   return (
     <>
-      <div className="h-[100vh] w-[100vw] flex items-center justify-center flex-col overflow-hidden gap-10">
-        <div className="bg-[#2d0c2d] h-[60vh] w-[70vw] mt-[5%] rounded-3xl relative flex items-left justify-center gap-16 flex-col p-5 overflow-hidden">
+      <div className="h-[100vh] w-[100vw] flex items-center justify-center flex-col overflow-y-auto gap-10">
+        <div className="bg-[#2d0c2d] h-[60vh] w-[70vw] mt-[5%] rounded-3xl relative flex items-left justify-center gap-[10%] flex-col p-5 overflow-hidden">
           <img
             src={img1}
             alt=""
@@ -40,18 +43,34 @@ const Aboutus = () => {
         {/* team */}
         <div className="grid grid-cols-2 grid-rows-6 gap-4 justify-items-center w-[30%]">
           <div className="w-auto bg-red-600 h-[90%] rounded-2xl row-span-3">
-            <img src={dp} alt="" className="rounded-2xl h-[100%]" />
+            <img
+              src={sahil}
+              alt=""
+              className="rounded-2xl h-[100%] object-cover"
+            />
           </div>
           <div className="w-[20vw] bg-transparent h-[10vh] rounded-2xl"></div>
 
           <div className="w-auto bg-red-600 h-[90%] rounded-2xl row-span-3">
-            <img src={dp} alt="" className="rounded-2xl h-[100%]" />
+            <img
+              src={roushan}
+              alt=""
+              className="rounded-2xl h-[100%] object-cover"
+            />
           </div>
           <div className="w-auto bg-red-600 h-[90%] rounded-2xl row-span-3">
-            <img src={dp} alt="" className="rounded-2xl h-[100%]" />
+            <img
+              src={avirup}
+              alt=""
+              className="rounded-2xl h-[100%] object-cover"
+            />
           </div>
           <div className="w-auto bg-red-600 h-[90%] rounded-2xl row-span-3">
-            <img src={dp} alt="" className="rounded-2xl h-[100%]" />
+            <img
+              src={avijit}
+              alt=""
+              className="rounded-2xl h-[100%] object-cover"
+            />
           </div>
           <div className="w-[20vw] bg-transparent h-[10vh] rounded-2xl"></div>
         </div>
