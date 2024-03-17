@@ -14,7 +14,7 @@ const Getapi = () => {
 
   const login = () => {
     const data = {
-      username: user,
+      companyname: user,
       password: pass,
     };
     axios.post(`${import.meta.env.VITE_URL}/api/login`, data).then((res) => {
@@ -27,7 +27,7 @@ const Getapi = () => {
 
   const register = () => {
     const data = {
-      username: user,
+      companyname: user,
       password: pass,
     };
     axios
