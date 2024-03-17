@@ -6,7 +6,7 @@ import Login from "../Login/Login";
 import Logout from "../Login/Logout";
 const Header = () => {
   const { user, isAuthenticated } = useAuth0();
-  console.log(isAuthenticated);
+  // console.log(isAuthenticated);
   return (
     <div className="bg-[#000000] flex justify-between items-center  text-white mt-6 left-[20%] h-[6vh] w-[60vw] rounded-3xl px-10 overflow-hidden  shadow-[#120411] absolute z-30">
       <div>

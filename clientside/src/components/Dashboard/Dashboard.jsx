@@ -155,7 +155,6 @@ const Dashboard = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.1, ease: "easeInOut" }}
-        variants={gridVariant}
       >
         <div className=" h-[08%] ">
           <h1 className="pl-[.7rem]  h-full flex items-center text-[4vh] font-semibold">
