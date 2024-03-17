@@ -31,7 +31,7 @@ import { motion } from "framer-motion";
 const Dashboard = () => {
   const [transaction, setTransaction] = useState([]);
   const [refresh, setRefresh] = useState(0);
-  const [fraudData, setFraudDta] = useState({});
+  const [fraudData, setFraudData] = useState({});
   const [refreshing, setRefreshing] = useState("");
 
   useEffect(() => {
@@ -41,8 +41,32 @@ const Dashboard = () => {
     axios
       .post(`${import.meta.env.VITE_URL}/dashboard/getFrauds`, data)
       .then((res) => {
-        console.log(res.data);
-        setFraudDta(res.data);
+        setFraudData(res.data);
+        console.log(fraudData);
+        const fraudData2 = res.data;
+        setTransaction([
+          fraudData2.top3[1]
+            ? {
+                name: fraudData2.top3[1].name,
+                amount: fraudData2.top3[1].amount,
+                fraud: fraudData2.top3[1].isfraud,
+              }
+            : null,
+          fraudData2.top3[2]
+            ? {
+                name: fraudData2.top3[2].name,
+                amount: fraudData2.top3[2].amount,
+                fraud: fraudData2.top3[2].isfraud,
+              }
+            : null,
+          fraudData2.top3[3]
+            ? {
+                name: fraudData2.top3[3].name,
+                amount: fraudData2.top3[3].amount,
+                fraud: fraudData2.top3[3].isfraud,
+              }
+            : null,
+        ]);
       });
   }, [refresh]);
 
@@ -141,25 +165,25 @@ const Dashboard = () => {
     { name: "June", Total: 1700 },
   ];
 
-  useEffect(() => {
-    setTransaction([
-      {
-        name: "ramesh",
-        amount: "900",
-        fraud: "Fraud Detected",
-      },
-      {
-        name: "suresh",
-        amount: "2500",
-        fraud: "Legit",
-      },
-      {
-        name: "rajesh",
-        amount: "500",
-        fraud: "Fraud Detected",
-      },
-    ]);
-  }, []);
+  // useEffect(() => {
+  //   setTransaction([
+  //     {
+  //       name: fraudData.top3[1].name,
+  //       amount: fraudData.top3[1].amount,
+  //       fraud: fraudData.top3[1].isfraud,
+  //     },
+  //     {
+  //       name: fraudData.top3[2].name,
+  //       amount: fraudData.top3[2].amount,
+  //       fraud: fraudData.top3[2].isfraud,
+  //     },
+  //     {
+  //       name: fraudData.top3[3].name,
+  //       amount: fraudData.top3[3].amount,
+  //       fraud: fraudData.top3[3].isfraud,
+  //     },
+  //   ]);
+  // }, [refresh]);
 
   const bgofcards =
     "from-[#1d1c1c] to-[#2e2d2d] bg-gradient-to-t rounded border border-[#444343] shadow-[#2e2d2d]";
@@ -196,7 +220,7 @@ const Dashboard = () => {
             </div>
             <div className=" flex-1 pl-[.7vw] flex flex-col justify-center">
               <h1 className="text-[1rem]   flex items-end justify-start  font-medium opacity-80">
-                Total Fraud{" "}
+                Total Frauds{" "}
               </h1>
               <h1 className="text-[1.85rem] flex items-start leading-tight font-medium">
                 {fraudData ? fraudData.frauds : 0}
@@ -291,7 +315,9 @@ const Dashboard = () => {
                   className=" w-full from-[#1b1b1b] to-[#6d006d7c] bg-gradient-to-bl border-[#6d006d59] flex gap-[5%]  items-center flex-1 px-[5%] rounded-lg font-medium border"
                   key={index}
                 >
-                  <span className="text-[#cccccc] w-[20%]">{trnsc.name}</span>
+                  <span className="text-[#cccccc] w-[20%] whitespace-nowrap overflow-hidden">
+                    {trnsc.name}
+                  </span>
                   <span className="text-[#cccccc] w-[25%]">
                     {trnsc.amount}₹
                   </span>
@@ -316,20 +342,22 @@ const Dashboard = () => {
               </span>
             </div>
             <div className=" h-[82%] gap-[5%] py-[3.5%] px-[3%] flex flex-col">
-              {transaction.map((trnsc, index) => (
-                <div
-                  className=" w-full from-[#1b1b1b] to-[#0000007c] bg-gradient-to-bl border-[#0a0a0a59] flex gap-[5%]  items-center flex-1 px-[5%] rounded font-medium border"
-                  key={index}
-                >
-                  <span className="text-[#cccccc] ">{trnsc.name}</span>
+              {transaction.map((trnsc, index) =>
+                trnsc.fraud == "Fraud" ? (
+                  <div
+                    className=" w-full from-[#1b1b1b] to-[#0000007c] bg-gradient-to-bl border-[#0a0a0a59] flex gap-[5%]  items-center flex-1 px-[5%] rounded font-medium border"
+                    key={index}
+                  >
+                    <span className="text-[#cccccc] ">{trnsc.name}</span>
 
-                  <span className="text-[#cccccc]">{trnsc.amount}₹</span>
-                  <span className="text-[#cccccc] flex gap-[5%] whitespace-nowrap items-center ml-auto">
-                    <ExclamationTriangleIcon />
-                    {trnsc.fraud}
-                  </span>
-                </div>
-              ))}
+                    <span className="text-[#cccccc]">{trnsc.amount}₹</span>
+                    <span className="text-[#cccccc] flex gap-[5%] whitespace-nowrap items-center ml-auto">
+                      <ExclamationTriangleIcon />
+                      {trnsc.fraud}
+                    </span>
+                  </div>
+                ) : null
+              )}
             </div>
           </div>
         </div>
