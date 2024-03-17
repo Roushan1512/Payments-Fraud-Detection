@@ -52,7 +52,7 @@ const Getapi = () => {
         // Register
         <div className="bg-black h-auto w-auto px-6 py-12 rounded-3xl flex flex-col justify-center items-center gap-6">
           <h1 className="text-3xl">Register to get your ApiKey</h1>
-          <label htmlFor="user">Username</label>
+          <label htmlFor="user">Company Name</label>
           <input
             type="text"
             value={user}
@@ -85,7 +85,7 @@ const Getapi = () => {
         // Login
         <div className="bg-black h-auto w-auto px-6 py-12 rounded-3xl flex flex-col justify-center items-center gap-6">
           <h1 className="text-3xl">Login to check your ApiKey</h1>
-          <label htmlFor="user">Username</label>
+          <label htmlFor="user">Company Name</label>
           <input
             type="text"
             value={user}
