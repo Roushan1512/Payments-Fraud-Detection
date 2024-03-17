@@ -8,7 +8,7 @@ const Header = () => {
   const { user, isAuthenticated } = useAuth0();
   // console.log(isAuthenticated);
   return (
-    <div className="bg-[#000000] flex justify-between items-center  text-white mt-6 left-[20%] h-[6vh] w-[60vw] rounded-3xl px-10 overflow-hidden  shadow-[#120411] absolute z-30">
+    <div className="bg-[#000000] flex justify-between items-center font-Karla  text-white mt-6 left-[20%] h-[6vh] w-[60vw] rounded-3xl px-10 overflow-hidden  shadow-[#120411] absolute z-30">
       <div>
         <NavLink to="/">
           <img src={logo} alt="" className="h-[8vh]" />
@@ -41,6 +41,19 @@ const Header = () => {
             }
           >
             <li>DASHBOARD</li>
+          </NavLink>
+          <NavLink
+            to="/transaction"
+            className={({ isActive }) =>
+              ` ${
+                isActive
+                  ? "bg-[#6d006d] hover:bg-[#940194]"
+                  : "bg-transparent hover:bg-[#450a45]"
+              }
+              p-2 rounded-2xl transition ease-in-out`
+            }
+          >
+            <li>Payment</li>
           </NavLink>
           <NavLink
             to="/aboutus"

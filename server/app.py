@@ -65,12 +65,14 @@ api.add_resource(userApiRegister, '/APiKey/register')
 # Loading the model
 RF_model = pickle.load(open('random_forest_model.pkl', 'rb'))
 
-@app.route('/api/login',methods=['POST'])
+
+@app.route('/api/login', methods=['POST'])
 def loginapi():
-    username=request.json['username']
-    password=request.json['password']
-    user=UserApiKey.query.filter_by(username=username,password=password).first()
-    return jsonify({'message': 'Logged in successfully', 'api_key': user.apikey,'username':user.username,'password':user.password}), 200
+    username = request.json['username']
+    password = request.json['password']
+    user = UserApiKey.query.filter_by(
+        username=username, password=password).first()
+    return jsonify({'message': 'Logged in successfully', 'api_key': user.apikey, 'username': user.username, 'password': user.password}), 200
 
 
 def api_key_required(func):
@@ -129,17 +131,17 @@ def predict_api():
                     # query to check if the transaction is already flagged as fraud
                     prev_isFlaggedFraud = AllTransaction.query.filter_by(
                         username=request.headers.get('username')).order_by(AllTransaction.id.desc()).first()
-                    prev_isFlaggedFraud = prev_isFlaggedFraud.isFlaggedFraud
 
-                if (prev_isFlaggedFraud == 5):
-                    return jsonify({'error': 'Too many Fraud Transaction Your Account is under review'}), 400
+                    if prev_isFlaggedFraud:
+                        prev_isFlaggedFraud = prev_isFlaggedFraud.isFlaggedFraud
+                        if (prev_isFlaggedFraud == 5):
+                            return jsonify({'error': 'Too many Fraud Transaction Your Account is under review'}), 400
 
-                if (prev_isFlaggedFraud > 4):
-                    print(prev_isFlaggedFraud)
-                    return jsonify({'error': 'You have already made 5 fraud transactions. You are not allowed to make more fraud transactions.'}), 400
-
-                if (prev_isFlaggedFraud == None):
-                    prev_isFlaggedFraud = 0
+                        if (prev_isFlaggedFraud > 4):
+                            print(prev_isFlaggedFraud)
+                            return jsonify({'error': 'You have already made 5 fraud transactions. You are not allowed to make more fraud transactions.'}), 400
+                    else:
+                        prev_isFlaggedFraud = 0
 
                 new_transaction = AllTransaction(
                     type=type, amount=amount, oldbalanceOrg=oldbalance_org, newbalanceOrig=newbalance_orig, isFraud=prediction, isFlaggedFraud=prev_isFlaggedFraud+1,
@@ -178,20 +180,26 @@ def predict_noapi():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/getFrauds',methods=['POST'])
-def getFrauds():
-    data=request.json['data']
-    company_name=data['companyName']
-    frauds = AllTransaction.query.filter_by(isFraud="Fraud",companyName=company_name).all()  # Fraud and No Fraud
-    nofrauds = AllTransaction.query.filter_by(isFraud="No Fraud",companyName=company_name).all()
-    transactions=AllTransaction.query.filter_by(companyName=company_name).all()
-    flag=AllTransaction.query.filter_by(isFlaggedFraud=5,companyName=company_name).all()
-    return jsonify({'frauds': len(frauds), 'nofrauds': len(nofrauds), 'transactions': len(transactions),'flagged':len(flag)})
 
-    
+@app.route('/getFrauds', methods=['POST'])
+def getFrauds():
+    data = request.json['data']
+    company_name = data['companyName']
+    frauds = AllTransaction.query.filter_by(
+        isFraud="Fraud", companyName=company_name).all()  # Fraud and No Fraud
+    nofrauds = AllTransaction.query.filter_by(
+        isFraud="No Fraud", companyName=company_name).all()
+    transactions = AllTransaction.query.filter_by(
+        companyName=company_name).all()
+    flag = AllTransaction.query.filter_by(
+        isFlaggedFraud=5, companyName=company_name).all()
+    return jsonify({'frauds': len(frauds), 'nofrauds': len(nofrauds), 'transactions': len(transactions), 'flagged': len(flag)})
+
+
 @app.route('/status', methods=['GET'])
 def status():
     return "Main page is working"
+
 
 if __name__ == '__main__':
     app.run(debug=True)
