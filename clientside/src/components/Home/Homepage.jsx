@@ -171,7 +171,7 @@ const Homepage = () => {
                 Transaction Type
               </label>
               <select
-                className="w-1/2  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  h-[5vh]"
+                className="w-1/2  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
                 value={type}
                 onChange={(e) => {
                   setType(e.target.value);
