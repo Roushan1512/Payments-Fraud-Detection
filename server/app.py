@@ -24,7 +24,7 @@ jwt = JWTManager(app)
 class UserApiKey(db.Model):
     __tablename__ = 'allApiKey'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True)
+    companyname = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     apikey = db.Column(db.String(500))
 
@@ -50,14 +50,14 @@ with app.app_context():
 
 class userApiRegister(Resource):
     def post(self):
-        username = request.json['username']
+        companyname = request.json['companyname']
         password = request.json['password']
-        apikey = create_access_token(identity=username)
+        apikey = create_access_token(identity=companyname)
         new_userApiKey = UserApiKey(
-            username=username, password=password, apikey=apikey)
+            companyname=companyname, password=password, apikey=apikey)
         db.session.add(new_userApiKey)
         db.session.commit()
-        return jsonify({'username': username, 'password': password, 'api_key': apikey, 'message': 'You Must Store This API Key For Future Use!'})
+        return jsonify({'companyname': companyname, 'password': password, 'api_key': apikey, 'message': 'You Must Store This API Key For Future Use!'})
 
 
 api.add_resource(userApiRegister, '/APiKey/register')
@@ -68,11 +68,11 @@ RF_model = pickle.load(open('random_forest_model.pkl', 'rb'))
 
 @app.route('/api/login', methods=['POST'])
 def loginapi():
-    username = request.json['username']
+    companyname = request.json['companyname']
     password = request.json['password']
     user = UserApiKey.query.filter_by(
-        username=username, password=password).first()
-    return jsonify({'message': 'Logged in successfully', 'api_key': user.apikey, 'username': user.username, 'password': user.password}), 200
+        companyname=companyname, password=password).first()
+    return jsonify({'message': 'Logged in successfully', 'api_key': user.apikey, 'companyname': user.companyname, 'password': user.password}), 200
 
 
 def api_key_required(func):
@@ -80,13 +80,13 @@ def api_key_required(func):
     def decorated_view(*args, **kwargs):
         if request.method == 'POST':
             api_key = request.headers.get('api-key')
-            username = request.headers.get('username')
-            if not username:
-                return jsonify({'message': 'Missing username in headers (type: username:Your_User_Name)'}), 400
+            companyname = request.headers.get('companyname')
+            if not companyname:
+                return jsonify({'message': 'Missing username in headers (type: companyname:Your_User_Name)'}), 400
             if not api_key:
                 return jsonify({'message': 'Missing API key (type: api-key:your_api_key)'}), 400
 
-            if api_key and UserApiKey.query.filter_by(apikey=api_key, username=username).first():
+            if api_key and UserApiKey.query.filter_by(apikey=api_key, companyname=companyname).first():
                 return func(*args, **kwargs)
             else:
                 return jsonify({'message': 'Invalid API key'}), 401
@@ -126,11 +126,14 @@ def predict_api():
                 prediction = RF_model.predict(data_unseen)[0]
                 predictions.append(prediction)
 
+                print(prediction)
+
                 # Storing the data in the database
                 if (prediction == "Fraud"):
                     # query to check if the transaction is already flagged as fraud
                     prev_isFlaggedFraud = AllTransaction.query.filter_by(
                         username=request.headers.get('username')).order_by(AllTransaction.id.desc()).first()
+                    print(prev_isFlaggedFraud)
 
                     if prev_isFlaggedFraud:
                         prev_isFlaggedFraud = prev_isFlaggedFraud.isFlaggedFraud
@@ -142,6 +145,8 @@ def predict_api():
                             return jsonify({'error': 'You have already made 5 fraud transactions. You are not allowed to make more fraud transactions.'}), 400
                     else:
                         prev_isFlaggedFraud = 0
+                else:
+                    prev_isFlaggedFraud = -1
 
                 new_transaction = AllTransaction(
                     type=type, amount=amount, oldbalanceOrg=oldbalance_org, newbalanceOrig=newbalance_orig, isFraud=prediction, isFlaggedFraud=prev_isFlaggedFraud+1,
