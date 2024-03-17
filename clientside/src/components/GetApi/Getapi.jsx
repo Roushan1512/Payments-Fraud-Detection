@@ -4,6 +4,8 @@ import axios from "axios";
 import { ClipboardList, X } from "lucide-react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setcompanyname } from "@/redux/counter";
 
 const Getapi = () => {
   const [user, setUser] = useState("");
@@ -11,6 +13,7 @@ const Getapi = () => {
   const [status, setStatus] = useState(false);
   const [found, setFound] = useState(false);
   const [userData, setUserData] = useState({});
+  const dispatch = useDispatch();
 
   const login = () => {
     const data = {
@@ -19,6 +22,7 @@ const Getapi = () => {
     };
     axios.post(`${import.meta.env.VITE_URL}/api/login`, data).then((res) => {
       setUserData(res.data);
+      dispatch(setcompanyname(user));
       setFound(true);
       setUser("");
       setPass("");
@@ -34,6 +38,7 @@ const Getapi = () => {
       .post(`${import.meta.env.VITE_URL}/APiKey/register`, data)
       .then((res) => {
         setUserData(res.data);
+        dispatch(setcompanyname(user));
         setFound(true);
         setUser("");
         setPass("");
@@ -120,7 +125,7 @@ const Getapi = () => {
           found ? "block" : "hidden"
         }`}
       >
-        <span>Username : {found ? userData.username : ""}</span>
+        <span>Username : {found ? userData.companyname : ""}</span>
         <span>Password : {found ? userData.password : ""}</span>
         <span>
           ApiKey : {found ? userData.api_key.substr(-6) + " . . ." : ""}
