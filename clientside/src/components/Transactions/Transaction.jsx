@@ -157,145 +157,139 @@ const Transaction = () => {
             </div>
           </motion.div>
           <div className="  w-[45%] rounded-md p-[1vw] border-2 h-[70%] overflow-hidden relative">
-            <AnimatePresence>
-              <motion.div
-                className="absolute top-0 left-0 w-full h-full bg-[#242323a4] z-10 flex items-center justify-center backdrop-blur-[.8px]"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: loading ? 1 : 0,
-                  zIndex: loading ? 100 : -5,
-                }}
-                transition={{ duration: 0.5, ease: "easeInOut", type: "tween" }}
-                layout
-              ></motion.div>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Choose Type</AccordionTrigger>
-                  <AccordionContent>
-                    <div className=" h-[20%] w-full  gap-[5%] flex items-center px-[3%] py-[3%] ">
-                      <label htmlFor="select" className=" w-1/2">
-                        Transaction Type
-                      </label>
-                      <select
-                        className="w-1/2 h-full  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
-                        value={type}
-                        onChange={(e) => {
-                          setType(e.target.value);
-                        }}
-                      >
-                        <option value="1" className=" bg-[#341730f9]">
-                          Cash Out
-                        </option>
-                        <option value="2" className=" bg-[#341730f9]">
-                          Payment
-                        </option>
-                        <option value="3" className=" bg-[#341730f9]">
-                          Cash In
-                        </option>
-                        <option value="4" className=" bg-[#341730f9]">
-                          Transfer
-                        </option>
-                        <option value="5" className=" bg-[#341730f9]">
-                          Debit Card
-                        </option>
-                      </select>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-5">
-                  <AccordionTrigger>Apikey</AccordionTrigger>
-                  <AccordionContent>
-                    <Input
-                      // label="Password"
-                      variant="bordered"
-                      placeholder="Enter your password"
-                      endContent={
-                        <button
-                          className="focus:outline-none"
-                          type="button"
-                          onClick={toggleVisibility}
-                        >
-                          {isVisible ? (
-                            <Eye className="text-2xl text-default-400 pointer-events-none" />
-                          ) : (
-                            <EyeOffIcon className="text-2xl text-default-400 pointer-events-none" />
-                          )}
-                        </button>
-                      }
-                      type={isVisible ? "text" : "password"}
-                      className=" w-full "
-                      value={Apikey}
+            <motion.div
+              className="absolute top-0 left-0 w-full h-full bg-[#242323a4] z-10 flex items-center justify-center backdrop-blur-[.8px]"
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: loading ? 1 : 0,
+                zIndex: loading ? 100 : -5,
+              }}
+              transition={{ duration: 0.5, ease: "easeInOut", type: "tween" }}
+              layout
+            ></motion.div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Choose Type</AccordionTrigger>
+                <AccordionContent>
+                  <div className=" h-[20%] w-full  gap-[5%] flex items-center px-[3%] py-[3%] ">
+                    <label htmlFor="select" className=" w-1/2">
+                      Transaction Type
+                    </label>
+                    <select
+                      className="w-1/2 h-full  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
+                      value={type}
                       onChange={(e) => {
-                        setApikey(e.target.value);
+                        setType(e.target.value);
+                      }}
+                    >
+                      <option value="1" className=" bg-[#341730f9]">
+                        Cash Out
+                      </option>
+                      <option value="2" className=" bg-[#341730f9]">
+                        Payment
+                      </option>
+                      <option value="3" className=" bg-[#341730f9]">
+                        Cash In
+                      </option>
+                      <option value="4" className=" bg-[#341730f9]">
+                        Transfer
+                      </option>
+                      <option value="5" className=" bg-[#341730f9]">
+                        Debit Card
+                      </option>
+                    </select>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-5">
+                <AccordionTrigger>Apikey</AccordionTrigger>
+                <AccordionContent>
+                  <Input
+                    // label="Password"
+                    variant="bordered"
+                    placeholder="Enter your password"
+                    endContent={
+                      <button
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={toggleVisibility}
+                      >
+                        {isVisible ? (
+                          <Eye className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                          <EyeOffIcon className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                      </button>
+                    }
+                    type={isVisible ? "text" : "password"}
+                    className=" w-full "
+                    value={Apikey}
+                    onChange={(e) => {
+                      setApikey(e.target.value);
+                    }}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Username</AccordionTrigger>
+                <AccordionContent>
+                  <div className=" h-[20%] w-full  gap-[5%] flex  px-[3%] py-[.5%] flex-col ">
+                    <input
+                      type="text"
+                      className=" w-full h-full  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => {
+                        setUsername(e.target.value);
                       }}
                     />
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>Username</AccordionTrigger>
-                  <AccordionContent>
-                    <div className=" h-[20%] w-full  gap-[5%] flex  px-[3%] py-[.5%] flex-col ">
-                      <input
-                        type="text"
-                        className=" w-full h-full  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
-                        placeholder="Enter your username"
-                        value={username}
-                        onChange={(e) => {
-                          setUsername(e.target.value);
-                        }}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Company Name</AccordionTrigger>
+                <AccordionContent>
+                  <div className=" h-[20%] w-full  gap-[5%] flex  px-[3%] py-[.5%] flex-col ">
+                    <input
+                      type="text"
+                      className=" w-full h-full  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
+                      placeholder="Enter the company name"
+                      value={companyName}
+                      onChange={(e) => {
+                        setCompanyName(e.target.value);
+                      }}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-4">
+                <AccordionTrigger>Date</AccordionTrigger>
+                <AccordionContent>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-[240px] justify-start text-left font-normal",
+                          !date && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
                       />
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-3">
-                  <AccordionTrigger>Company Name</AccordionTrigger>
-                  <AccordionContent>
-                    <div className=" h-[20%] w-full  gap-[5%] flex  px-[3%] py-[.5%] flex-col ">
-                      <input
-                        type="text"
-                        className=" w-full h-full  rounded-md bg-transparent border-2 border-[#a4a4a4] p-3 outline-none  "
-                        placeholder="Enter the company name"
-                        value={companyName}
-                        onChange={(e) => {
-                          setCompanyName(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-4">
-                  <AccordionTrigger>Date</AccordionTrigger>
-                  <AccordionContent>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] justify-start text-left font-normal",
-                            !date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </AnimatePresence>
+                    </PopoverContent>
+                  </Popover>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
           <div className="  w-[35%] rounded-md px-[2vw] py-[2.5vh] border-2 h-[70%] flex flex-col font-Karla relative ">
             <motion.div
