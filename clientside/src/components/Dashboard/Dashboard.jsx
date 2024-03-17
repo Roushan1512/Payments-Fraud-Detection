@@ -6,6 +6,7 @@ import {
   LineChartIcon,
   ShieldHalf,
   StickyNote,
+  RefreshCw,
 } from "lucide-react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import {
@@ -30,6 +31,8 @@ import { motion } from "framer-motion";
 const Dashboard = () => {
   const [transaction, setTransaction] = useState([]);
   const [refresh, setRefresh] = useState(0);
+  const [fraudData, setFraudDta] = useState({});
+  const [refreshing, setRefreshing] = useState("");
 
   useEffect(() => {
     const data = {
@@ -39,8 +42,17 @@ const Dashboard = () => {
       .post(`${import.meta.env.VITE_URL}/dashboard/getFrauds`, data)
       .then((res) => {
         console.log(res.data);
+        setFraudDta(res.data);
       });
   }, [refresh]);
+
+  const doRefresh = () => {
+    setRefreshing("animate-spin");
+    setTimeout(() => {
+      setRefresh(refresh + 1);
+      setRefreshing("");
+    }, 1000);
+  };
 
   console.log(localStorage.getItem("companyname"));
   const data = [
@@ -187,7 +199,7 @@ const Dashboard = () => {
                 Total Fraud{" "}
               </h1>
               <h1 className="text-[1.85rem] flex items-start leading-tight font-medium">
-                100
+                {fraudData ? fraudData.frauds : 0}
               </h1>
             </div>
           </div>
@@ -200,7 +212,7 @@ const Dashboard = () => {
                 Balance At Risk{" "}
               </h1>
               <h1 className="text-[1.85rem] flex items-start leading-tight font-medium">
-                100 ₹
+                {fraudData ? fraudData.amount : 0} ₹
               </h1>
             </div>
           </div>
@@ -213,10 +225,15 @@ const Dashboard = () => {
                 Pending Action{" "}
               </h1>
               <h1 className="text-[1.85rem] flex items-start leading-tight font-medium">
-                100
+                {fraudData ? fraudData.flagged : 0}
               </h1>
             </div>
           </div>
+          <RefreshCw
+            size={16}
+            className={`${refreshing} cursor-pointer`}
+            onClick={doRefresh}
+          />
         </div>
         <div className=" h-[28%]  flex p-[.3rem] gap-[1vw]">
           <div className={` flex-[1]  h-full ${bgofcards} flex-col`}>
@@ -226,8 +243,14 @@ const Dashboard = () => {
               </span>
             </div>
             <div className=" h-[82%]  flex items-center justify-center relative">
-              <span className=" absolute text-[5vh] font-semibold [transform:translate(-0%,30%)] z-30 ">
-                50%
+              <span className=" absolute text-[5vh] mt-4 font-semibold [transform:translate(-0%,30%)] z-30 ">
+                {fraudData
+                  ? (
+                      (fraudData.nofrauds / fraudData.transactions) *
+                      100
+                    ).toFixed(1)
+                  : 0}
+                %
               </span>
               <ResponsiveContainer width="100%" height="90%">
                 <PieChart className="  ">
