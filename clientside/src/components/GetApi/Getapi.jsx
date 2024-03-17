@@ -77,7 +77,12 @@ const Getapi = () => {
   }, []);
 
   return (
-    <div className=" h-[100vh] pl-[4vw] pr-[3vw] flex  items-start justify-center flex-col font-Karla relative">
+    <motion.div
+      className=" h-[100vh] pl-[4vw] pr-[3vw] flex  items-start justify-center flex-col font-Karla relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.05, ease: "easeInOut" }}
+    >
       <motion.div
         className=" bg-white px-[2vw] py-[1vh] absolute rounded z-[200] text-black font-semibold bottom-[5vh]"
         initial={{ opacity: 0, y: 100 }}
@@ -212,7 +217,7 @@ const Getapi = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

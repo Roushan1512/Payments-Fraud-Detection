@@ -107,9 +107,12 @@ const Transaction = () => {
   return (
     <>
       <div className=" h-[100vh] w-[100vw]  pl-[4vw] flex ">
-        <form
+        <motion.form
           className=" flex-[2]  flex items-center gap-[1vw] justify-center relative "
           onSubmit={predictReq}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeInOut", type: "tween" }}
         >
           <motion.div
             className=" absolute z-[150] px-[2vw] py-[1.5vh] bg-white rounded text-black font-semibold border-2 border-[#0000003a] "
@@ -156,7 +159,7 @@ const Transaction = () => {
               </span>
             </div>
           </motion.div>
-          <div className="  w-[45%] rounded-md p-[1vw] border-2 h-[70%] overflow-hidden relative">
+          <div className="  w-[45%] rounded-md p-[1vw] border-2 border-[#ffffff36] from-[#00000021] to-[#0a080ab6] bg-gradient-to-b h-[70%] overflow-hidden relative">
             <motion.div
               className="absolute top-0 left-0 w-full h-full bg-[#242323a4] z-10 flex items-center justify-center backdrop-blur-[.8px]"
               initial={{ opacity: 0 }}
@@ -291,7 +294,7 @@ const Transaction = () => {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="  w-[35%] rounded-md px-[2vw] py-[2.5vh] border-2 h-[70%] flex flex-col font-Karla relative ">
+          <div className="  w-[35%] rounded-md px-[2vw] py-[2.5vh] border-2 border-[#ffffff3b] from-[#00000021] to-[#0a080ab6] bg-gradient-to-b h-[70%] flex flex-col font-Karla relative ">
             <motion.div
               className="absolute top-0 left-0 w-full h-full bg-[#242323a4] z-10 flex items-center justify-center backdrop-blur-[.8px]"
               initial={{ opacity: 0 }}
@@ -311,6 +314,7 @@ const Transaction = () => {
                   setAmount(e.target.value);
                 }}
                 required
+                placeholder="Enter the amount"
               />
             </div>
             <div className=" h-[25%] w-full flex flex-col px-[3%] py-[3%] gap-[5%]  justify-evenly">
@@ -326,6 +330,7 @@ const Transaction = () => {
                   setoldBalance(e.target.value);
                 }}
                 required
+                placeholder="Enter the old balance"
               />
             </div>
             <div className=" h-[25%] w-full flex flex-col px-[3%] py-[3%] gap-[5%]  justify-evenly">
@@ -340,6 +345,7 @@ const Transaction = () => {
                 onChange={(e) => {
                   setnewBalance(e.target.value);
                 }}
+                placeholder="Enter the new balance"
                 required
               />
             </div>
@@ -357,7 +363,7 @@ const Transaction = () => {
               />
             </div>
           </div>
-        </form>
+        </motion.form>
         <div className=" flex-1  flex items-center justify-center">
           <div className="  w-[70%] h-[70%]"></div>
         </div>
