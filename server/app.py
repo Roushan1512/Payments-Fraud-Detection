@@ -186,10 +186,9 @@ def predict_noapi():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/getFrauds', methods=['POST'])
+@app.route('/dashboard/getFrauds', methods=['POST'])
 def getFrauds():
-    data = request.json['data']
-    company_name = data['companyName']
+    company_name = request.json['companyname']
     frauds = AllTransaction.query.filter_by(
         isFraud="Fraud", companyName=company_name).all()  # Fraud and No Fraud
     nofrauds = AllTransaction.query.filter_by(
