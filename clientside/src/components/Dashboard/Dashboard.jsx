@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import {
   CircleAlert,
   LineChartIcon,
@@ -28,6 +29,19 @@ import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const [transaction, setTransaction] = useState([]);
+  const [refresh, setRefresh] = useState(0);
+
+  useEffect(() => {
+    const data = {
+      companyname: localStorage.getItem("companyname") || "",
+    };
+    axios
+      .post(`${import.meta.env.VITE_URL}/dashboard/getFrauds`, data)
+      .then((res) => {
+        console.log(res.data);
+      });
+  }, [refresh]);
+
   console.log(localStorage.getItem("companyname"));
   const data = [
     { name: "Group A", value: 400 },
