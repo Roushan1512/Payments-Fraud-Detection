@@ -212,9 +212,11 @@ const Dashboard = () => {
     <div>
       {loading ? (
         <div className="flex justify-center items-center h-[100vh]">
-          <span className="animate-spin">
+          {/* <span className="animate-spin">
             <LoaderCircle size={32} />
-          </span>
+          </span> */}
+
+          <div className="h-8 w-8 bg-transparent border-white border-[2.5px] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className=" w-[100vw] h-[100vh]  overflow-x-hidden pl-[4vw] font-Karla">
