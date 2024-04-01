@@ -25,7 +25,7 @@ Frontend:
 - Tailwind CSS
 Backend:
 - Python
-- Flux
+- Flask
 - PostgreSQL
 Models:
 - Pandas
