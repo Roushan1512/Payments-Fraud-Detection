@@ -1,4 +1,4 @@
-﻿# Submission Cypher-Mercer-Hackathon
+﻿# Payments Fraud Detection
 
 # Cypher
 
