@@ -36,41 +36,51 @@ const Dashboard = () => {
   const [refreshing, setRefreshing] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // setTimeout(() => {
+  //   setRefresh(refresh + 1);
+  //   setLoading(false);
+  //   console.log("timeref:", refresh);
+  // }, 5000);
+
   useEffect(() => {
-    const data = {
-      companyname: localStorage.getItem("companyname") || "",
-    };
-    axios
-      .post(`${import.meta.env.VITE_URL}/dashboard/getFrauds`, data)
-      .then((res) => {
-        setFraudData(res.data);
-        console.log(fraudData);
-        const fraudData2 = res.data;
-        setTransaction([
-          fraudData2.top3[1]
-            ? {
-                name: fraudData2.top3[1].name,
-                amount: fraudData2.top3[1].amount,
-                fraud: fraudData2.top3[1].isfraud,
-              }
-            : null,
-          fraudData2.top3[2]
-            ? {
-                name: fraudData2.top3[2].name,
-                amount: fraudData2.top3[2].amount,
-                fraud: fraudData2.top3[2].isfraud,
-              }
-            : null,
-          fraudData2.top3[3]
-            ? {
-                name: fraudData2.top3[3].name,
-                amount: fraudData2.top3[3].amount,
-                fraud: fraudData2.top3[3].isfraud,
-              }
-            : null,
-        ]);
-      });
-    console.log(fraudData);
+    async function fetchData() {
+      const data = {
+        companyname: localStorage.getItem("companyname") || "",
+      };
+      await axios
+        .post(`${import.meta.env.VITE_URL}/dashboard/getFrauds`, data)
+        .then((res) => {
+          setFraudData(res.data);
+          console.log(fraudData);
+          setLoading(false);
+          const fraudData2 = res.data;
+          setTransaction([
+            fraudData2.top3[1]
+              ? {
+                  name: fraudData2.top3[1].name,
+                  amount: fraudData2.top3[1].amount,
+                  fraud: fraudData2.top3[1].isfraud,
+                }
+              : null,
+            fraudData2.top3[2]
+              ? {
+                  name: fraudData2.top3[2].name,
+                  amount: fraudData2.top3[2].amount,
+                  fraud: fraudData2.top3[2].isfraud,
+                }
+              : null,
+            fraudData2.top3[3]
+              ? {
+                  name: fraudData2.top3[3].name,
+                  amount: fraudData2.top3[3].amount,
+                  fraud: fraudData2.top3[3].isfraud,
+                }
+              : null,
+          ]);
+        });
+      console.log(fraudData);
+    }
+    fetchData();
   }, [refresh]);
 
   const doRefresh = () => {
@@ -198,18 +208,15 @@ const Dashboard = () => {
     },
   };
 
-  setTimeout(() => {
-    setRefresh(refresh + 1);
-    setLoading(false);
-  }, 5000);
-
   return (
     <div>
       {loading ? (
         <div className="flex justify-center items-center h-[100vh]">
-          <span className="animate-spin">
+          {/* <span className="animate-spin">
             <LoaderCircle size={32} />
-          </span>
+          </span> */}
+
+          <div className="h-8 w-8 bg-transparent border-white border-[2.5px] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className=" w-[100vw] h-[100vh]  overflow-x-hidden pl-[4vw] font-Karla">

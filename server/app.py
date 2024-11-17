@@ -248,7 +248,7 @@ def getFrauds():
         })
 
 
-@app.route('/status', methods=['GET'])
+@app.route('/', methods=['GET'])
 def status():
     return "Main page is working"
 
