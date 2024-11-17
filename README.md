@@ -1,10 +1,12 @@
+
 <h1
   align="center"
   font-size="50px"> 
 Cypher </h1>
+  
 
 <div align="center" style="margin: 20px 0;">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://cypher-theta.vercel.app/">
     <img src="clientside/public/Cypher_logo_.png" alt="Logo" width="80" height="80"/>
   </a>
 </div>
