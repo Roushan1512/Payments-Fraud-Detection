@@ -12,22 +12,20 @@ const Homepage = () => {
   const [newBalance, setnewBalance] = useState("");
   const [loading, setloading] = useState(false);
   const [fraudDetected, setfraudDetected] = useState(false);
+  const [notFraud, setNotFraud] = useState(false);
 
   const predictDemo = (e) => {
     e.preventDefault();
     const predictData = {
       type: parseInt(type),
       amount: parseInt(amount),
-      oldbalanceOrg: parseInt(oldBalance),
-      newbalanceOrig: parseInt(newBalance),
+      oldBal: parseInt(oldBalance),
+      newBal: parseInt(newBalance),
     };
     console.log(predictData);
     setloading(true);
     axios
-      .post(
-        `${import.meta.env.VITE_URL}/demo/singleData/predict_noapi`,
-        predictData
-      )
+      .post(`${import.meta.env.VITE_URL}/predict/noauth`, predictData)
       .then((res) => {
         setloading(false);
         console.log(res.data.prediction);
@@ -35,7 +33,12 @@ const Homepage = () => {
           setfraudDetected(true);
           setTimeout(() => {
             setfraudDetected(false);
-          }, 6000);
+          }, 2000);
+        } else {
+          setNotFraud(true);
+          setTimeout(() => {
+            setNotFraud(false);
+          }, 2000);
         }
         setAmount("");
         setoldBalance("");
@@ -92,9 +95,18 @@ const Homepage = () => {
             className=" h-full w-full bg-[#00000069] rounded-3xl backdrop-blur-sm z-30 absolute"
             initial={{ opacity: 0, scale: 0, brightness: 0 }}
             animate={{
-              opacity: fraudDetected ? 1 : 0,
-              scale: fraudDetected ? 1 : 0,
-              y: fraudDetected ? 0 : 100,
+              opacity: [0, fraudDetected ? 1 : 0],
+              scale: [1, fraudDetected ? 1 : 0],
+              y: [0, fraudDetected ? 0 : 100],
+            }}
+          ></motion.div>
+          <motion.div
+            className=" h-full w-full bg-[#00000069] rounded-3xl backdrop-blur-sm z-30 absolute"
+            initial={{ opacity: 0, scale: 0, brightness: 0 }}
+            animate={{
+              opacity: [0, notFraud ? 1 : 0],
+              scale: [1, notFraud ? 1 : 0],
+              y: [0, notFraud ? 0 : 100],
             }}
           ></motion.div>
           <motion.div
@@ -107,8 +119,22 @@ const Homepage = () => {
                 : "scale(0) translate(-50%,-50%)",
             }}
           >
+            <span className=" text-[3vh] whitespace-nowrap font-semibold text-center">
+              Transaction Failed <br /> Try Again
+            </span>
+          </motion.div>
+          <motion.div
+            className="  py-[1vh] px-[1vw]  origin-center flex items-center bg-[#ebbcbc] text-black absolute rounded z-40 top-1/2 left-1/2 [transform:translate(-50%,-50%)]"
+            initial={{ opacity: 0, scale: 0, brightness: 0 }}
+            animate={{
+              opacity: notFraud ? 1 : 0,
+              transform: notFraud
+                ? "scale(1) translate(-50%,-30%)"
+                : "scale(0) translate(-50%,-50%)",
+            }}
+          >
             <span className=" text-[3vh] whitespace-nowrap font-semibold">
-              Transaction Failed Try Again
+              Transaction Success
             </span>
           </motion.div>
           <motion.div
@@ -176,19 +202,19 @@ const Homepage = () => {
                 }}
               >
                 <option value="1" className=" bg-[#341730f9]">
-                  Cash Out
-                </option>
-                <option value="2" className=" bg-[#341730f9]">
                   Payment
                 </option>
-                <option value="3" className=" bg-[#341730f9]">
-                  Cash In
-                </option>
-                <option value="4" className=" bg-[#341730f9]">
+                <option value="2" className=" bg-[#341730f9]">
                   Transfer
                 </option>
-                <option value="5" className=" bg-[#341730f9]">
+                <option value="3" className=" bg-[#341730f9]">
+                  Cash Out
+                </option>
+                <option value="4" className=" bg-[#341730f9]">
                   Debit Card
+                </option>
+                <option value="5" className=" bg-[#341730f9]">
+                  Cash In
                 </option>
               </select>
             </div>
