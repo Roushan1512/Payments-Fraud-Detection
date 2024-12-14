@@ -16,12 +16,10 @@ const Homepage = () => {
   const predictDemo = (e) => {
     e.preventDefault();
     const predictData = {
-      data: {
-        type: parseInt(type),
-        amount: parseInt(amount),
-        oldbalanceOrg: parseInt(oldBalance),
-        newbalanceOrig: parseInt(newBalance),
-      },
+      type: parseInt(type),
+      amount: parseInt(amount),
+      oldbalanceOrg: parseInt(oldBalance),
+      newbalanceOrig: parseInt(newBalance),
     };
     console.log(predictData);
     setloading(true);

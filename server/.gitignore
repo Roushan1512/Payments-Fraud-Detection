@@ -9,9 +9,10 @@ __pycache__/
 #Virtual Environments
 fraud_env
 
-#dataset files
+#dataset files & folders
 onlinefraud.csv
 cleanfrauds.pkl
+datasets
 
 # Distribution / packaging
 .Python
