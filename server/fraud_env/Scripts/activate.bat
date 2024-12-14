@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\web dev\Hackathons\Mercer\Cypher-Mercer-Hackathon\server\fraud_env
+set VIRTUAL_ENV=D:\Roushan\Codes\Hackathons\MercerRepo\Payments-Fraud-Detection\server\fraud_env
 
 if not defined PROMPT set PROMPT=$P$G
 

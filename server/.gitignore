@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+#Virtual Environments
+fraud_env
+
 # Distribution / packaging
 .Python
 build/
