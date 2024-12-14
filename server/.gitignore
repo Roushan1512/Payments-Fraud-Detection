@@ -9,6 +9,9 @@ __pycache__/
 #Virtual Environments
 fraud_env
 
+#CSV file
+onlinefraud.csv
+
 # Distribution / packaging
 .Python
 build/
