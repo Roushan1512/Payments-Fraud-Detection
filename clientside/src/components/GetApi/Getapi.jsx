@@ -22,13 +22,15 @@ const Getapi = () => {
     const data = {
       companyname: user,
       password: pass,
+      api_key: "",
     };
     axios
-      .post(`${import.meta.env.VITE_URL}/api/login`, data)
+      .post(`${import.meta.env.VITE_URL}/user/login`, data)
       // axios
       //   .post(`http://localhost:5000/api/login`, data)
 
       .then((res) => {
+        console.log(res.data);
         setUserData(res.data);
         dispatch(setcompanyname(user));
         setLoginStatus(true);
@@ -48,7 +50,7 @@ const Getapi = () => {
       password: pass,
     };
     axios
-      .post(`${import.meta.env.VITE_URL}/APiKey/register`, data)
+      .post(`${import.meta.env.VITE_URL}/user/register`, data)
       // .post(`http://localhost:5000/APiKey/register`, data)
       .then((res) => {
         setUserData(res.data);

@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 #Virtual Environments
-fraud_env
+.fraudEnv
 
 #dataset files & folders
 onlinefraud.csv
