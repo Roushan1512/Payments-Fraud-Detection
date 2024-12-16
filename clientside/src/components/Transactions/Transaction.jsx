@@ -35,8 +35,8 @@ const Transaction = () => {
   const [newBalance, setnewBalance] = useState("");
   const [username, setUsername] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState(Date.now());
+  const [time, setTime] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [loading, setloading] = useState(false);
   const [loadingtext, setloadingtext] = useState(false);
   const [fraudDetected, setfraudDetected] = useState(false);
@@ -47,32 +47,25 @@ const Transaction = () => {
     setloading(true);
     setloadingtext(true);
 
-    const headers = {
-      "api-key": Apikey,
+    const data = {
+      type: type,
+      amount: amount,
+      oldBal: oldBalance,
+      newBal: newBalance,
+      api_key: Apikey,
       companyname: companyName,
       username: username,
-      time: time,
-      date: date,
+      time: time.toTimeString(),
+      date: date.toDateString(),
     };
-    const alldata = {
-      data: [
-        {
-          type: type,
-          amount: amount,
-          oldbalanceOrg: oldBalance,
-          newbalanceOrig: newBalance,
-        },
-      ],
-    };
+    console.log(data);
 
     axios
-      .post(`${import.meta.env.VITE_URL}/predict_api`, alldata, {
-        headers: headers,
-      })
+      .post(`${import.meta.env.VITE_URL}/predict/apiKey`, data)
       .then((res) => {
         setloadingtext(false);
-        console.log(res.data.predictions[0]);
-        if (res.data.predictions[0] === "Fraud") {
+        console.log(res.data);
+        if (res.data.prediction === "Fraud") {
           setfraudDetected(true);
           setTimeout(() => {
             setfraudDetected(false);
@@ -90,12 +83,12 @@ const Transaction = () => {
         setApikey("");
         setUsername("");
         setCompanyName("");
-        setTime("");
-        setDate(Date.now());
+        setTime(new Date());
+        setDate(new Date());
       })
       .catch((err) => {
         setloadingtext(false);
-        console.log(err);
+        console.log(err.response.data.detail);
       })
       .finally(() => {
         setTimeout(() => {
@@ -186,19 +179,19 @@ const Transaction = () => {
                       }}
                     >
                       <option value="1" className=" bg-[#341730f9]">
-                        Cash Out
-                      </option>
-                      <option value="2" className=" bg-[#341730f9]">
                         Payment
                       </option>
-                      <option value="3" className=" bg-[#341730f9]">
-                        Cash In
-                      </option>
-                      <option value="4" className=" bg-[#341730f9]">
+                      <option value="2" className=" bg-[#341730f9]">
                         Transfer
                       </option>
-                      <option value="5" className=" bg-[#341730f9]">
+                      <option value="3" className=" bg-[#341730f9]">
+                        Cash Out
+                      </option>
+                      <option value="4" className=" bg-[#341730f9]">
                         Debit Card
+                      </option>
+                      <option value="5" className=" bg-[#341730f9]">
+                        Cash In
                       </option>
                     </select>
                   </div>
@@ -268,28 +261,26 @@ const Transaction = () => {
               <AccordionItem value="item-4">
                 <AccordionTrigger>Date</AccordionTrigger>
                 <AccordionContent>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] justify-start text-left font-normal",
-                          !date && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") : <span>Pick a date</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  {/* <Popover> */}
+                  {/* <PopoverTrigger asChild> */}
+                  <div
+                    // disabled={true}
+                    // variant={"outline"}
+                    className="w-[240px] flex px-3 py-2 justify-start disabled:opacity-100 text-left font-normal border-2 rounded-lg cursor-not-allowed"
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </div>
+                  {/* </PopoverTrigger> */}
+                  {/* <PopoverContent className="w-auto p-0" align="start"> */}
+                  {/* <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  /> */}
+                  {/* </PopoverContent> */}
+                  {/* </Popover> */}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

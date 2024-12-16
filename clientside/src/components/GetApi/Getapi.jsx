@@ -14,7 +14,11 @@ const Getapi = () => {
   const [pass, setPass] = useState("");
   const [status, setStatus] = useState(false);
   const [found, setFound] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    companyname: "",
+    password: "",
+    api_key: "",
+  });
   const [loginStatus, setLoginStatus] = useState(false);
   const dispatch = useDispatch();
 
@@ -24,23 +28,18 @@ const Getapi = () => {
       password: pass,
       api_key: "",
     };
-    axios
-      .post(`${import.meta.env.VITE_URL}/user/login`, data)
-      // axios
-      //   .post(`http://localhost:5000/api/login`, data)
-
-      .then((res) => {
-        console.log(res.data);
-        setUserData(res.data);
-        dispatch(setcompanyname(user));
-        setLoginStatus(true);
-        setFound(true);
-        setUser("");
-        setPass("");
-        setTimeout(() => {
-          setLoginStatus(false);
-        }, 3000);
-      });
+    axios.post(`${import.meta.env.VITE_URL}/user/login`, data).then((res) => {
+      console.log(res.data);
+      setUserData(res.data);
+      dispatch(setcompanyname(user));
+      setLoginStatus(true);
+      setFound(true);
+      setUser("");
+      setPass("");
+      setTimeout(() => {
+        setLoginStatus(false);
+      }, 3000);
+    });
   };
 
   const register = () => {
@@ -48,11 +47,12 @@ const Getapi = () => {
     const data = {
       companyname: user,
       password: pass,
+      api_key: "",
     };
     axios
       .post(`${import.meta.env.VITE_URL}/user/register`, data)
-      // .post(`http://localhost:5000/APiKey/register`, data)
       .then((res) => {
+        console.log(res.data);
         setUserData(res.data);
         dispatch(setcompanyname(user));
         setFound(true);
@@ -62,6 +62,9 @@ const Getapi = () => {
         setTimeout(() => {
           setLoginStatus(false);
         }, 3000);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -71,12 +74,12 @@ const Getapi = () => {
     setPass("");
   };
   const companyName = useSelector((state) => state.companyname);
-  useEffect(() => {
-    if (companyName.companyname !== "") {
-      setUser(companyName.companyname);
-      login();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (companyName.companyname !== "") {
+  //     setUser(companyName.companyname);
+  //     login();
+  //   }
+  // }, []);
 
   return (
     <motion.div
@@ -196,7 +199,9 @@ const Getapi = () => {
               <div className="text-[3vh] flex items-center ">
                 <div className=" mr-auto overflow-hidden break-words line-clamp-3 w-[30vw] text-sm ">
                   <span>
-                    {found ? userData.api_key.substr(-6) + " . . ." : ""}{" "}
+                    {userData.api_key != undefined
+                      ? userData.api_key.substr(-6) + " . . ."
+                      : ""}{" "}
                   </span>
                 </div>
                 <span className=" text-[2.5vh] mr-[.5vw] bg-[#00000009]">

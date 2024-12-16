@@ -30,9 +30,26 @@ import { Tooltip } from "@nextui-org/react";
 import { motion } from "framer-motion";
 
 const Dashboard = () => {
-  const [transaction, setTransaction] = useState([]);
+  const [transaction, setTransaction] = useState([
+    { name: "Roushan", amount: 700, fraud: "Not Fraud" },
+    { name: "Sahil", amount: 400, fraud: "Not Fraud" },
+    { name: "Avirup", amount: 900, fraud: "Fraud" },
+  ]);
   const [refresh, setRefresh] = useState(0);
-  const [fraudData, setFraudData] = useState({});
+  const [fraudData, setFraudData] = useState({
+    frauds: 14,
+    amount: 900,
+    flagged: 6,
+    nofrauds: 4,
+    transactions: 8,
+    types: [
+      { name: "Payment", value: 2 },
+      { name: "Transfer", value: 5 },
+      { name: "Cash In", value: 7 },
+      { name: "Cash Out", value: 1 },
+      { name: "Debit Card", value: 4 },
+    ],
+  });
   const [refreshing, setRefreshing] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -77,6 +94,10 @@ const Dashboard = () => {
                 }
               : null,
           ]);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
         });
       console.log(fraudData);
     }
