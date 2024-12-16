@@ -14,6 +14,8 @@ const Getapi = () => {
   const [pass, setPass] = useState("");
   const [status, setStatus] = useState(false);
   const [found, setFound] = useState(false);
+  const [axErr, setAxErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [userData, setUserData] = useState({
     companyname: "",
     password: "",
@@ -28,18 +30,28 @@ const Getapi = () => {
       password: pass,
       api_key: "",
     };
-    axios.post(`${import.meta.env.VITE_URL}/user/login`, data).then((res) => {
-      console.log(res.data);
-      setUserData(res.data);
-      dispatch(setcompanyname(user));
-      setLoginStatus(true);
-      setFound(true);
-      setUser("");
-      setPass("");
-      setTimeout(() => {
-        setLoginStatus(false);
-      }, 3000);
-    });
+    axios
+      .post(`${import.meta.env.VITE_URL}/user/login`, data)
+      .then((res) => {
+        console.log(res.data);
+        setUserData(res.data);
+        dispatch(setcompanyname(user));
+        setLoginStatus(true);
+        setFound(true);
+        setUser("");
+        setPass("");
+        setTimeout(() => {
+          setLoginStatus(false);
+        }, 3000);
+      })
+      .catch((err) => {
+        console.log(err.response.data.detail);
+        setErrMsg(err.response.data.detail);
+        setAxErr(true);
+        setTimeout(() => {
+          setAxErr(false);
+        }, 3000);
+      });
   };
 
   const register = () => {
@@ -64,7 +76,12 @@ const Getapi = () => {
         }, 3000);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data.detail);
+        setErrMsg(err.response.data.detail);
+        setAxErr(true);
+        setTimeout(() => {
+          setAxErr(false);
+        }, 3000);
       });
   };
 
@@ -94,6 +111,13 @@ const Getapi = () => {
         animate={{ opacity: loginStatus ? 1 : 0, y: loginStatus ? 0 : 100 }}
       >
         Logged In SuccessFully
+      </motion.div>
+      <motion.div
+        className=" bg-white px-[2vw] py-[1vh] absolute rounded z-[200] text-black font-semibold bottom-[5vh]"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: axErr ? 1 : 0, y: axErr ? 0 : 100 }}
+      >
+        {errMsg}
       </motion.div>
       <div className=" text-[4.2vh] font-semibold pl-[.5vw] whitespace-nowrap">
         Get An Api Key for your company

@@ -41,6 +41,8 @@ const Transaction = () => {
   const [loadingtext, setloadingtext] = useState(false);
   const [fraudDetected, setfraudDetected] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [axErr, setAxErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
   const predictReq = (e) => {
     e.preventDefault();
@@ -89,6 +91,11 @@ const Transaction = () => {
       .catch((err) => {
         setloadingtext(false);
         console.log(err.response.data.detail);
+        setErrMsg(err.response.data.detail);
+        setAxErr(true);
+        setTimeout(() => {
+          setAxErr(false);
+        }, 3000);
       })
       .finally(() => {
         setTimeout(() => {
@@ -100,6 +107,13 @@ const Transaction = () => {
   return (
     <>
       <div className=" h-[100vh] w-[100vw]  pl-[4vw] flex ">
+        <motion.div
+          className=" bg-white px-[2vw] py-[1vh] absolute rounded z-[200] text-black font-semibold bottom-[5vh]"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: axErr ? 1 : 0, y: axErr ? 0 : 100 }}
+        >
+          {errMsg}
+        </motion.div>
         <motion.form
           className=" flex-[2]  flex items-center gap-[1vw] justify-center relative "
           onSubmit={predictReq}

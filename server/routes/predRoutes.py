@@ -42,7 +42,7 @@ def predApi(predData : predAuthmodelAPI, db : Session = Depends(get_db)):
 
     userFound=db.query(UserDB).filter(UserDB.companyname==companyname).first()
     if not userFound:
-        raise HTTPException(status_code=500, detail="User Not Found")
+        raise HTTPException(status_code=500, detail="Company Not Found")
     else:
         if userFound.api_key!=api_key :
             raise HTTPException(status_code=500, detail="Wrong API Key")
