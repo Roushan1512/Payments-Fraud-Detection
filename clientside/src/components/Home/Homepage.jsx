@@ -25,7 +25,7 @@ const Homepage = () => {
     console.log(predictData);
     setloading(true);
     axios
-      .post(`${import.meta.env.VITE_URL}predict/noauth`, predictData)
+      .post(`${import.meta.env.VITE_URL}/predict/noauth`, predictData)
       .then((res) => {
         setloading(false);
         console.log(res.data.prediction);

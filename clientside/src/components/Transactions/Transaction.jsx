@@ -61,7 +61,7 @@ const Transaction = () => {
     console.log(data);
 
     axios
-      .post(`${import.meta.env.VITE_URL}predict/apiKey`, data)
+      .post(`${import.meta.env.VITE_URL}/predict/apiKey`, data)
       .then((res) => {
         setloadingtext(false);
         console.log(res.data);
