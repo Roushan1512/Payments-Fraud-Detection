@@ -31,9 +31,9 @@ import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const [transaction, setTransaction] = useState([
-    { name: "Roushan", amount: 700, fraud: "Not Fraud" },
-    { name: "Sahil", amount: 400, fraud: "Not Fraud" },
-    { name: "Avirup", amount: 900, fraud: "Fraud" },
+    { name: "Roushan", amount: 700, isFraud: "Not Fraud" },
+    { name: "Sahil", amount: 400, isFraud: "Not Fraud" },
+    { name: "Avirup", amount: 900, isFraud: "Fraud" },
   ]);
   const [refresh, setRefresh] = useState(0);
   const [fraudData, setFraudData] = useState({
@@ -43,15 +43,19 @@ const Dashboard = () => {
     nofrauds: 4,
     transactions: 8,
     types: [
-      { name: "Payment", value: 2 },
-      { name: "Transfer", value: 5 },
-      { name: "Cash In", value: 7 },
-      { name: "Cash Out", value: 1 },
-      { name: "Debit Card", value: 4 },
+      { name: "Payment", value: Math.random() },
+      { name: "Transfer", value: Math.random() },
+      { name: "Cash In", value: Math.random() },
+      { name: "Cash Out", value: Math.random() },
+      { name: "Debit Card", value: Math.random() },
     ],
   });
   const [refreshing, setRefreshing] = useState("");
   const [loading, setLoading] = useState(true);
+  const [found, setFound] = useState(false);
+  const [frauds, setFrauds] = useState(0);
+  const [balRisk, setBalRisk] = useState(0);
+  const [health, setHealth] = useState(0);
 
   // setTimeout(() => {
   //   setRefresh(refresh + 1);
@@ -61,39 +65,25 @@ const Dashboard = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const data = {
-        companyname: localStorage.getItem("companyname") || "",
-      };
+      const companyname = localStorage.getItem("companyname") || "";
       await axios
-        .post(`${import.meta.env.VITE_URL}/dashboard/getFrauds`, data)
+        .get(
+          `${
+            import.meta.env.VITE_URL
+          }/dashboard/getFrauds?companyname=${companyname}`
+        )
         .then((res) => {
-          setFraudData(res.data);
-          console.log(fraudData);
+          setFound(true);
+          console.log(res.data);
           setLoading(false);
-          const fraudData2 = res.data;
-          setTransaction([
-            fraudData2.top3[1]
-              ? {
-                  name: fraudData2.top3[1].name,
-                  amount: fraudData2.top3[1].amount,
-                  fraud: fraudData2.top3[1].isfraud,
-                }
-              : null,
-            fraudData2.top3[2]
-              ? {
-                  name: fraudData2.top3[2].name,
-                  amount: fraudData2.top3[2].amount,
-                  fraud: fraudData2.top3[2].isfraud,
-                }
-              : null,
-            fraudData2.top3[3]
-              ? {
-                  name: fraudData2.top3[3].name,
-                  amount: fraudData2.top3[3].amount,
-                  fraud: fraudData2.top3[3].isfraud,
-                }
-              : null,
-          ]);
+          res.data.forEach((i) => {
+            if (i.isFraud == "Fraud") {
+              setFrauds(frauds + 1);
+              setBalRisk(balRisk + i.amount);
+            }
+          });
+          setTransaction(res.data);
+          setHealth(res.data.length);
         })
         .catch((err) => {
           console.log(err);
@@ -263,7 +253,7 @@ const Dashboard = () => {
                     Total Frauds{" "}
                   </h1>
                   <h1 className="text-[1.85rem] flex items-start leading-tight font-medium">
-                    {fraudData ? fraudData.frauds : 0}
+                    {found ? frauds : fraudData.frauds}
                   </h1>
                 </div>
               </div>
@@ -276,7 +266,7 @@ const Dashboard = () => {
                     Balance At Risk{" "}
                   </h1>
                   <h1 className="text-[1.85rem] flex items-start leading-tight font-medium">
-                    {fraudData ? fraudData.amount : 0} ₹
+                    {found ? balRisk : fraudData.amount} ₹
                   </h1>
                 </div>
               </div>
@@ -315,13 +305,7 @@ const Dashboard = () => {
                 </div>
                 <div className=" h-[82%]  flex items-center justify-center relative">
                   <span className=" absolute text-[5vh] mt-4 font-semibold [transform:translate(-0%,30%)] z-30 ">
-                    {fraudData
-                      ? (
-                          (fraudData.nofrauds / fraudData.transactions) *
-                          100
-                        ).toFixed(1)
-                      : 0}
-                    %
+                    {found ? 100 * (1 - frauds / health) : 0}%
                   </span>
                   <ResponsiveContainer width="100%" height="90%">
                     <PieChart className="  ">
@@ -356,14 +340,14 @@ const Dashboard = () => {
                     Transactions <CircleAlert size={15} />
                   </span>
                 </div>
-                <div className=" h-[82%] gap-[5%] py-[3.5%] px-[3%] flex flex-col">
+                <div className=" h-[82%] gap-[5%] py-[3.5%] px-[3%] flex flex-col overflow-auto">
                   {transaction.map((trnsc, index) => (
                     <div
                       className=" w-full from-[#1b1b1b] to-[#6d006d7c] bg-gradient-to-bl border-[#6d006d59] flex gap-[5%]  items-center flex-1 px-[5%] rounded-lg font-medium border"
                       key={index}
                     >
                       <span className="text-[#cccccc] w-[20%] whitespace-nowrap overflow-hidden">
-                        {trnsc.name}
+                        {trnsc.username}
                       </span>
                       <span className="text-[#cccccc] w-[25%]">
                         {trnsc.amount}₹
@@ -371,12 +355,12 @@ const Dashboard = () => {
                       <span className="text-[#cccccc] w-[50%] bg-[#00000069] rounded-md px-[2%] flex gap-[4%] whitespace-nowrap items-center ">
                         <ExclamationTriangleIcon
                           className={` ${
-                            trnsc.fraud == "Fraud Detected"
+                            trnsc.isFraud == "Fraud"
                               ? " stroke-[red]"
                               : " stroke-[#ffffff56]"
                           } `}
                         />
-                        {trnsc.fraud}
+                        {trnsc.isFraud}
                       </span>
                     </div>
                   ))}
@@ -388,19 +372,21 @@ const Dashboard = () => {
                     Fraud Under Review <CircleAlert size={15} />
                   </span>
                 </div>
-                <div className=" h-[82%] gap-[5%] py-[3.5%] px-[3%] flex flex-col">
+                <div className=" h-[82%] gap-[5%] py-[3.5%] px-[3%] flex flex-col overflow-auto">
                   {transaction.map((trnsc, index) =>
-                    trnsc.fraud == "Fraud" ? (
+                    trnsc.isFraud == "Fraud" ? (
                       <div
                         className=" w-full from-[#1b1b1b] to-[#0000007c] bg-gradient-to-bl border-[#0a0a0a59] flex gap-[5%]  items-center flex-1 px-[5%] rounded font-medium border"
                         key={index}
                       >
-                        <span className="text-[#cccccc] ">{trnsc.name}</span>
+                        <span className="text-[#cccccc] ">
+                          {trnsc.username}
+                        </span>
 
                         <span className="text-[#cccccc]">{trnsc.amount}₹</span>
                         <span className="text-[#cccccc] flex gap-[5%] whitespace-nowrap items-center ml-auto">
                           <ExclamationTriangleIcon />
-                          {trnsc.fraud}
+                          {trnsc.isFraud}
                         </span>
                       </div>
                     ) : null

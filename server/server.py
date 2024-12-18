@@ -5,6 +5,7 @@ import pickle
 from routes.predRoutes import router as predRoutes
 from routes.userRoutes import router as userRoutes
 from routes.healthCheck import router as healthRoute
+from routes.dashboardRoute import router as dashboardRoute
 
 app=FastAPI()
 app.add_middleware(
@@ -17,6 +18,7 @@ app.add_middleware(
 app.include_router(predRoutes)
 app.include_router(userRoutes)
 app.include_router(healthRoute)
+app.include_router(dashboardRoute)
 
 @app.get("/")
 def home():
