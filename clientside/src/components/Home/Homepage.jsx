@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import img1 from "./design.png";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -49,6 +49,20 @@ const Homepage = () => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    const pingDb = async () => {
+      await axios
+        .get(`${import.meta.env.VITE_URL}/pingDB`)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    pingDb();
+  }, []);
 
   return (
     <div className=" h-[100vh]">

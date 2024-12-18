@@ -71,12 +71,12 @@ const Transaction = () => {
           setfraudDetected(true);
           setTimeout(() => {
             setfraudDetected(false);
-          }, 6000);
+          }, 3000);
         } else {
           setPaymentSuccess(true);
           setTimeout(() => {
             setPaymentSuccess(false);
-          }, 6000);
+          }, 3000);
         }
         setAmount("");
         setoldBalance("");
