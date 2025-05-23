@@ -27,3 +27,9 @@ def home():
 
 if (__name__=="__main__"):
     uvicorn.run("server:app",reload=True,host="0.0.0.0",port=8000)
+
+
+# cd server
+# python -m venv fraudenv
+# fraudenv\Scripts\Activate
+# python -m ipykernel install --name=fraudenv --display-name="fraudenv"
